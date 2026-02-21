@@ -1,27 +1,25 @@
-import { useState, useEffect } from 'react'
-
-import axios from 'axios'
-import { Button } from './components/ui/button'
+import { BrowserRouter as Router, Routes, Route } from 'react-router';
+import { useState } from 'react'
+import ProtectedRoute from '@/components/protectedRoute';
+import Login from '@/views/login';
+import Dashboard from '@/views/dashboard';
+import Questions from '@/views/questions';
 
 function App() {
-  const [data, setData] = useState(null)
-
-  useEffect(() => {
-    axios.get('http://localhost:3000/health')
-      .then(function (response) {
-        console.log(response)
-        setData(response.data)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
-  }, [])
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   return (
-    <div className='flex flex-col justify-center items-center min-w-dvw min-h-dvh'>
-        <p className=''>{data ? JSON.stringify(data) : "No data loaded yet."}</p>
-        <Button onClick={() => alert('Button clicked!')}>Click Me</Button>
-    </div>
+   <Router>
+      <Routes>
+        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+
+        {/* Protected Routes Group */}
+        <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/questions" element={<Questions />} />
+        </Route>
+      </Routes>
+    </Router>
   )
 }
 
