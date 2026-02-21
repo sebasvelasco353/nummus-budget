@@ -12,9 +12,6 @@ export default defineConfig([
     plugins: { js },
     extends: ["js/recommended"],
     languageOptions: { globals: globals.node },
-    rules: {
-      "no-unused-vars": "warn",
-    },
   },
   {
     files: ['**/*.{ts,tsx}'],
@@ -31,5 +28,8 @@ export default defineConfig([
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    rules: {
+      "react-refresh/only-export-components": "off"
+    }
   },
 ]);
