@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import './App.css'
 
 import axios from 'axios'
 
@@ -18,9 +17,9 @@ function App() {
   }, [])
 
   return (
-    <>
-        <p>{data ? JSON.stringify(data) : "No data loaded yet."}</p>
-    </>
+    <div className='flex flex-col justify-center items-center min-w-dvw min-h-dvh'>
+        <p className=''>{data ? JSON.stringify(data) : "No data loaded yet."}</p>
+    </div>
   )
 }
 
