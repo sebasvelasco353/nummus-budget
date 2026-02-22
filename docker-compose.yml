@@ -6,7 +6,7 @@ services:
   # ---------------------------------
   db:
     image: postgres:16-alpine
-    container_name: voting-db
+    container_name: nummus-db
     restart: unless-stopped
     env_file:
       - .env
@@ -29,7 +29,7 @@ services:
     build:
       context: .
       dockerfile: apps/backend/Dockerfile
-    container_name: voting-backend
+    container_name: nummus-backend
     restart: unless-stopped
     env_file:
       - .env
@@ -54,7 +54,7 @@ services:
     build:
       context: .
       dockerfile: apps/frontend/Dockerfile
-    container_name: voting-frontend
+    container_name: nummus-frontend
     restart: unless-stopped
     depends_on:
       - backend
