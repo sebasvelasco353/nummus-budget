@@ -6,15 +6,16 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# Copy workspace manifests first for better layer caching.
-# We need the root package.json (workspaces config) and both
-# app manifests so `npm install` resolves the full workspace.
+# Copy workspace manifests for dependency installation
 COPY package.json package-lock.json* ./
 COPY apps/frontend/package.json ./apps/frontend/
 COPY apps/backend/package.json  ./apps/backend/
 
-# Install all workspace deps at the repo root
 RUN npm install
+
+# Copy full frontend source so vite.config.js and other config
+# files are present at startup (src/ is overridden by bind mount)
+COPY apps/frontend ./apps/frontend
 
 WORKDIR /app/apps/frontend
 
