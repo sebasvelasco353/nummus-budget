@@ -1,0 +1,32 @@
+# ─────────────────────────────────────────────────────────────
+# Production overrides
+# Usage: docker compose -f compose.base.yml -f compose.prod.yml up --build -d
+# ─────────────────────────────────────────────────────────────
+
+services:
+
+  # Postgres is NOT exposed to the host in production —
+  # it's only reachable by other containers on app-network.
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}   # make sure this is a strong secret
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile.prod
+    # No host port binding — traffic comes in via the frontend nginx proxy
+    environment:
+      NODE_ENV: production
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile.prod
+    ports:
+      # Only the frontend (nginx) is exposed to the outside world.
+      # Put a reverse proxy (Caddy / Traefik / nginx on the host) in front
+      # of this if you need TLS termination.
+      - "80:80"
+    environment:
+      NODE_ENV: production

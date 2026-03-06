@@ -1,0 +1,47 @@
+# compose.dev.yml
+# ─────────────────────────────────────────────────────────────
+# Development overrides
+# Usage: docker compose -f compose.base.yml -f compose.dev.yml up --build
+# ─────────────────────────────────────────────────────────────
+
+services:
+
+  postgres:
+    ports:
+      # Expose postgres locally so you can connect with a DB client
+      - "5432:5432"
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile.dev
+    volumes:
+      # Bind-mount source for live reload
+      - ./apps/backend/src:/app/apps/backend/src
+      # Anonymous volumes: Docker preserves the node_modules installed in the
+      # image and prevents the host bind mounts from shadowing them
+      - /app/node_modules
+      - /app/apps/backend/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile.dev
+    volumes:
+      # Bind-mount source for Vite HMR
+      - ./apps/frontend/src:/app/apps/frontend/src
+      - ./apps/frontend/public:/app/apps/frontend/public
+      - ./apps/frontend/index.html:/app/apps/frontend/index.html
+      # Anonymous volumes: same protection for frontend node_modules
+      - /app/node_modules
+      - /app/apps/frontend/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      NODE_ENV: development
+      # Vite exposes env vars with the VITE_ prefix
+      VITE_API_URL: http://localhost:3000
