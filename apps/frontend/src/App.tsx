@@ -13,6 +13,7 @@ function App() {
       <h1>Nummus Budget</h1>
       <p>Welcome to the Nummus Budget app! This is a simple budgeting tool built with a Node.js backend and a React frontend. Use the navigation links to explore the dashboard and manage your budget.</p>
       <Dashboard />
+      <p>HOLIS</p>
     </div>
   //  <Router>
   //     <Routes>

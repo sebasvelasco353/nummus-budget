@@ -16,7 +16,7 @@ COPY apps/backend/package.json  ./apps/backend/
 RUN npm install --omit=dev
 
 # ---------- runtime stage ----------
-FROM node:22-alpine AS runner
+FROM node:24-alpine AS runner
 
 # Run as a non-root user for security
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
