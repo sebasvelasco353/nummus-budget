@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "docker compose -f compose.base.yml -f compose.dev.yml up --build",
+    "dev": "docker compose -f compose.base.yml -f compose.dev.yml up -d --build",
     "dev:down": "docker compose -f compose.base.yml -f compose.dev.yml down",
     "prod": "docker compose -f compose.base.yml -f compose.prod.yml up --build -d",
     "prod:down": "docker compose -f compose.base.yml -f compose.prod.yml down",

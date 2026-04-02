@@ -15,7 +15,6 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 
-
 // PostgreSQL connection pool — DATABASE_URL is injected by Docker Compose
 const pool = new Pool({ connectionString: process.env.DATABASE_URL })
 
