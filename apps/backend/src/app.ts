@@ -2,6 +2,7 @@ import express from 'express';
 import pg from 'pg';
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import authRouter from './routes/auth_route';
 
 const { Pool } = pg
 const app = express()
@@ -14,6 +15,9 @@ app.use(cors({
 
 app.use(express.json())
 app.use(cookieParser())
+
+// Auth routes
+app.use('/api/auth', authRouter);
 
 // PostgreSQL connection pool — DATABASE_URL is injected by Docker Compose
 const pool = new Pool({ connectionString: process.env.DATABASE_URL })
