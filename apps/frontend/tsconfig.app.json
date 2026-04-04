@@ -28,7 +28,9 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ]
+      ],
+      "@nummus/types": ["../../packages/types/src/index.d.ts"],
+      "@nummus/types/*": ["../../packages/types/src/*"]
     }
   },
   "include": ["src"]

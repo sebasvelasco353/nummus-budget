@@ -9,6 +9,7 @@
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
+    "@nummus/types": "*",
     "@tailwindcss/vite": "^4.2.0",
     "axios": "^1.13.5",
     "class-variance-authority": "^0.7.1",
