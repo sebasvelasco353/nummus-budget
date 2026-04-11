@@ -10,6 +10,7 @@ This project is also a learning exercise in fullstack engineering: moving from f
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Architecture Overview](#architecture-overview)
+- [Authentication Flow](/docs/auth_flow.md)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Environment Variables](#environment-variables)
@@ -20,7 +21,7 @@ This project is also a learning exercise in fullstack engineering: moving from f
   - [Commit Convention](#commit-convention)
   - [Linting](#linting)
 - [Deployment Notes](#deployment-notes)
-- [Roadmap](#roadmap)
+- [Roadmap](/docs/roadmap.md)
 
 ## Goals
 
@@ -302,17 +303,3 @@ The `postgres` service includes a health check (`pg_isready`) that the backend d
 - Production builds install only `--omit=dev` dependencies, reducing the image attack surface
 - All secrets are passed via environment variables, never baked into images (enforced by `.dockerignore`)
 
----
-
-## Roadmap
-
-- [ ] Database schema: users, accounts, transactions, categories, budgets
-- [ ] REST API: CRUD for all entities
-- [ ] Authentication: session-based auth
-- [ ] Protected routes on the frontend
-- [ ] Dashboard view: spending summary, budget progress bars
-- [ ] Transaction list with filtering and search
-- [ ] Monthly trend charts
-- [ ] CSV import for bank statement data
-- [ ] Dark mode support (CSS variables already wired)
-- [ ] Docker health check for the backend service
