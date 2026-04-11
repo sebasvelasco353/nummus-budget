@@ -29,7 +29,12 @@ export default defineConfig([
       },
     },
     rules: {
-      "react-refresh/only-export-components": "off"
+      "react-refresh/only-export-components": "off",
+      "@typescript-eslint/no-unused-vars": ["error", {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }]
     }
   },
 ]);

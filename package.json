@@ -11,7 +11,11 @@
     "dev:down": "docker compose -f compose.base.yml -f compose.dev.yml down",
     "prod": "docker compose -f compose.base.yml -f compose.prod.yml up --build -d",
     "prod:down": "docker compose -f compose.base.yml -f compose.prod.yml down",
-    "logs": "docker compose -f compose.base.yml -f compose.dev.yml logs -f"
+    "logs": "docker compose -f compose.base.yml -f compose.dev.yml logs -f",
+    "db:generate": "npm run -w apps/backend db:generate",
+    "db:push": "npm run -w apps/backend db:push",
+    "db:migrate": "npm run -w apps/backend db:migrate",
+    "db:studio": "npm run -w apps/backend db:studio"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.4.1",
