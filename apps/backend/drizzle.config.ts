@@ -1,5 +1,5 @@
 import { defineConfig } from 'drizzle-kit';
-import { getDatabaseUrl } from './utils/config';
+import { getDatabaseUrl } from './src/utils/config';
 
 export default defineConfig({
   out: './drizzle',

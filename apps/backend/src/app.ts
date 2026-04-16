@@ -2,8 +2,7 @@ import express from 'express';
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import authRouter from './routes/auth_route';
-import 'dotenv/config';
-import { drizzle } from 'drizzle-orm/node-postgres';
+import { db } from './db';
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -18,9 +17,6 @@ app.use(cookieParser())
 
 // Auth routes
 app.use('/api/auth', authRouter);
-
-// PostgreSQL connection pool — DATABASE_URL is injected by Docker Compose
-const db = drizzle(process.env.DATABASE_URL!);
 
 app.get('/api/health', async (_req, res) => {
   try {
