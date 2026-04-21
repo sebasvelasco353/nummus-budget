@@ -23,6 +23,7 @@ export const refreshTokensTable = pgTable("refresh_tokens", {
 
 export const accountsTable = pgTable("accounts", {
   id: uuid("id").primaryKey().defaultRandom(),
+  accountName: text("account_name").notNull(),
   bankName: text("bank_name").notNull(),
   currency: currencyEnum("currency").notNull().default("COP"),
   accountType: accountTypeEnum("account_type").notNull(),
