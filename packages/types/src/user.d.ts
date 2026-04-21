@@ -1,6 +1,10 @@
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  createdAt: string;
+export type User = {
+  name: string,
+  email: string,
+  lastName: string,
+  createdAt: Date,
+  passwordHash: string,
+}
+export type UserResponse = User & {
+  id: string
 }

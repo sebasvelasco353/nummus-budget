@@ -1,10 +1,9 @@
 import express from 'express';
-import pg from 'pg';
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import authRouter from './routes/auth_route';
+import { db } from './db';
 
-const { Pool } = pg
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -19,12 +18,9 @@ app.use(cookieParser())
 // Auth routes
 app.use('/api/auth', authRouter);
 
-// PostgreSQL connection pool — DATABASE_URL is injected by Docker Compose
-const pool = new Pool({ connectionString: process.env.DATABASE_URL })
-
 app.get('/api/health', async (_req, res) => {
   try {
-    await pool.query('SELECT 1')
+    const _ = await db.select();
     res.json({ status: 'ok', db: 'connected' })
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : 'Unknown error';

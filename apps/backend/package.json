@@ -13,21 +13,31 @@
     "build": "tsc",
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
-    "lint": "eslint \"src/**/*.{ts,js}\" --ext .ts,.js"
+    "lint": "eslint \"src/**/*.{ts,js}\" --ext .ts,.js",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx ./src/db/seed.ts"
   },
   "dependencies": {
     "@nummus/types": "*",
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "dotenv": "^17.4.1",
+    "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
-    "pg": "^8.12.0"
+    "pg": "^8.20.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.6",
     "@types/node": "^20.19.33",
-    "@types/pg": "^8.18.0",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^0.31.10",
     "nodemon": "^3.1.14",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.21.0",
