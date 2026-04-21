@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 import path from 'path';
 
 // Load .env from root directory
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
 
 export const getDatabaseUrl = (): string => {
   if (process.env.DATABASE_URL) {
