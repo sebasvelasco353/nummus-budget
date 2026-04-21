@@ -1,3 +1,6 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
+import { getDatabaseUrl } from 'src/utils/config'
 
-export const db = drizzle(process.env.DATABASE_URL!)
+console.log("The DB URL is: ", getDatabaseUrl());
+export const db = drizzle(getDatabaseUrl())
+

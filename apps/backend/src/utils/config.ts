@@ -6,7 +6,7 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 export const getDatabaseUrl = (): string => {
   if (process.env.DATABASE_URL) {
-    return process.env.DATABASE_URL;
+    return process.env.DATABASE_URL!;
   }
 
   // if we dont receive the database_url variable, we build it based on the other vars 

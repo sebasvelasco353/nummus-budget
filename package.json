@@ -15,7 +15,8 @@
     "db:generate": "npm run -w apps/backend db:generate",
     "db:push": "npm run -w apps/backend db:push",
     "db:migrate": "npm run -w apps/backend db:migrate",
-    "db:studio": "npm run -w apps/backend db:studio"
+    "db:studio": "npm run -w apps/backend db:studio",
+    "db:seed": "npm run -w apps/backend db:seed"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.4.1",
