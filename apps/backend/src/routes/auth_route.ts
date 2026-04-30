@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { hashPassword } from 'src/utils/hash';
-import { isUser } from 'src/utils/validation';
+import { isUser, validateEmail } from 'src/utils/validation';
 import { db } from 'src/db';
 import { usersTable } from 'src/db/schema';
 
@@ -24,6 +24,7 @@ router.post('/signin', async (req, res) => {
 
   try {
     const { name, lastName, password, email } = req.body;
+    if (!validateEmail(email)) throw ("Not a valid email")
     const tempUser = {
       name,
       lastName,

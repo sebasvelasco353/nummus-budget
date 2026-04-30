@@ -20,11 +20,9 @@ erDiagram
     USERS ||--o{ EXPENSES : "created_by/recorded_by"
     USERS ||--o{ INCOME : creates
     USERS ||--o{ GOALS : creates
-    USERS ||--o{ TASKS : "created/completed"
     USERS ||--o{ RECURRING_PAYMENTS : creates
     USERS ||--o{ REFRESH_TOKENS : has
     USERS ||--o{ GOAL_CONTRIBUTIONS : makes
-    USERS }o--|| TASK_ASSIGNMENTS : "assigned_to"
     USERS }o--|| GOALS_USERS : "joins"
 
     ACCOUNTS ||--o{ EXPENSES : "holds"
@@ -37,7 +35,6 @@ erDiagram
     GOALS ||--o{ GOAL_CONTRIBUTIONS : "receives"
     GOALS }o--|| GOALS_USERS : "shared_by"
 
-    TASKS }o--|| TASK_ASSIGNMENTS : "assigned_to"
 ```
 
 ---
@@ -88,7 +85,7 @@ erDiagram
 
 ### 4. **Many-to-Many via Junction Tables**
 
-**Decision**: Use explicit junction tables for Goals↔Users and Tasks↔Users relationships.
+**Decision**: Use explicit junction tables for Goals↔Users relationships.
 
 **Why**:
 - **Flexibility**: Goals can be personal (1 user) or shared (N users) without schema change
@@ -100,20 +97,7 @@ erDiagram
 
 ---
 
-### 5. **One Completion Per Task, But Many Assignees**
-
-**Decision**: Task has `completed_by` (single user), but `task_assignments` links many users.
-
-**Why**:
-- **Real scenario**: Task "Clean kitchen" assigned to Alice & Bob. Whoever finishes marks it done for both.
-- **Shared responsibility**: Prevents duplicate completions; one person finishing satisfies all assignees
-- **State clarity**: If both could complete independently, queries become complex ("is task done?")
-
-**Alternative considered**: Track per-user completion (separate `task_completion` table). Rejected as over-engineering for household chores.
-
----
-
-### 6. **Household-Scoped, Not Multi-Tenant**
+### 5. **Household-Scoped, Not Multi-Tenant**
 
 **Decision**: No `household_id` column. All users share everything.
 
@@ -200,7 +184,6 @@ Simple foreign key (FK). One side has many; other side has one.
 ### Many-to-Many (Flexible Relationships)
 ```
 Users <---> Goals (via goals_users)
-Users <---> Tasks (via task_assignments)
 ```
 Explicit junction table. Enables:
 - Adding metadata (`joined_at`, `assigned_at`)
@@ -233,10 +216,6 @@ Progress = SUM(goal_contributions.amount) / goals.target_amount
 
 ### Expense Breakdown by Category (This Month)
 Join expenses to categories, filter by date range, GROUP BY category.
-
-### Pending Tasks with Assignees
-LEFT JOIN task_assignments to get all users assigned to each task.
-
 ---
 
 ## Enums: Constrained Values
@@ -293,16 +272,6 @@ ORDER BY total DESC
 SELECT goal_id, users.name, SUM(goal_contributions.amount)
 GROUP BY goal_id, users.name
 ORDER BY SUM DESC
-```
-
-### Overdue Tasks with Owners
-```sql
-SELECT tasks.title, ARRAY_AGG(users.name)
-FROM tasks
-LEFT JOIN task_assignments ON tasks.id = task_assignments.task_id
-LEFT JOIN users ON task_assignments.user_id = users.id
-WHERE tasks.due_date < NOW() AND tasks.completed_at IS NULL
-GROUP BY tasks.id
 ```
 
 ---
