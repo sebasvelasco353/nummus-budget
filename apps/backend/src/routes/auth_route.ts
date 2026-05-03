@@ -10,7 +10,7 @@ const router = Router();
 router.post('/login', async (req, res) => {
   // TODO: Implement login logic
   console.log('Login Route')
-  res.status(200).json({ message: 'Not implemented' });
+  res.status(201).json({ message: 'Not implemented' });
 });
 
 // POST /api/auth/signin
@@ -41,7 +41,7 @@ router.post('/signin', async (req, res) => {
     const response = await db.insert(usersTable).values(tempUser).returning();
     res.status(200).json({
       message: 'User created successfully',
-      data: response[0]
+      data: { name: response[0].name, id: response[0].id, email: response[0].email, createdAt: response[0].createdAt }
     });
   } catch (error) {
     const message = error.cause?.detail || error.message || "Unknown server error";
