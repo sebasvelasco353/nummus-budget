@@ -1,8 +1,7 @@
 import { pgTable, decimal, uuid, text, timestamp, pgEnum } from "drizzle-orm/pg-core";
 
-const accountTypeEnum = pgEnum("account_type", ["savings", "checking", "credit"]);
-const currencyEnum = pgEnum("currency", ["USD", "EUR", "GBP", "COP"]);
-const recurringPeriodEnum = pgEnum("recurring_period", ["weekly", "monthly", "yearly"]);
+export const accountTypeEnum = pgEnum("account_type", ["savings", "checking", "credit"]);
+export const currencyEnum = pgEnum("currency", ["USD", "EUR", "GBP", "COP"]);
 
 export const usersTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -83,24 +82,6 @@ export const goalContributionsTable = pgTable("goal_contributions", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const tasksTable = pgTable("tasks", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  title: text("title").notNull(),
-  description: text("description"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  dueDate: timestamp("due_date"),
-  createdBy: uuid("created_by").notNull().references(() => usersTable.id),
-  completedBy: uuid("completed_by").references(() => usersTable.id),
-  completedAt: timestamp("completed_at"),
-});
-
-export const taskAssignmentsTable = pgTable("task_assignments", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  taskId: uuid("task_id").notNull().references(() => tasksTable.id),
-  userId: uuid("user_id").notNull().references(() => usersTable.id),
-  assignedAt: timestamp("assigned_at").notNull().defaultNow(),
-});
-
 export const goalsUsersTable = pgTable("goals_users", {
   id: uuid("id").primaryKey().defaultRandom(),
   goalId: uuid("goal_id").notNull().references(() => goalsTable.id),
@@ -108,16 +89,3 @@ export const goalsUsersTable = pgTable("goals_users", {
   joinedAt: timestamp("joined_at").notNull().defaultNow(),
 });
 
-export const recurringPaymentsTable = pgTable("recurring_payments", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  title: text("title").notNull(),
-  description: text("description"),
-  period: recurringPeriodEnum("period").notNull(),
-  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
-  startDate: timestamp("start_date").notNull(),
-  endDate: timestamp("end_date"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  createdBy: uuid("created_by").notNull().references(() => usersTable.id),
-  accountId: uuid("account_id").notNull().references(() => accountsTable.id),
-  categoryId: uuid("category_id").notNull().references(() => categoriesTable.id),
-});

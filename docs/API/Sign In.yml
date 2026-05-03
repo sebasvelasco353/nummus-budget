@@ -1,0 +1,27 @@
+info:
+  name: Sign In
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3000/api/auth/signin
+  headers:
+    - name: ""
+      value: ""
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Elzo",
+        "lastName": "Poncio",
+        "password": "My_Password-1234",
+        "email": "randoom@email.com"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
