@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { hashPassword } from 'src/utils/hash';
-import { isUser, validateEmail, isError } from 'src/utils/validation';
+import { isUser, validateEmail, validatePassword } from 'src/utils/validation';
 import { db } from 'src/db';
 import { usersTable } from 'src/db/schema';
 
@@ -22,6 +22,13 @@ router.post('/signin', async (req, res) => {
   const { name, lastName, password, email } = req.body;
   if (!validateEmail(email)) {
     res.status(400).json({ message: "Not a valid email", error: true });
+    return;
+  }
+  if (!validatePassword(password)) {
+    res.status(400).json({
+      message: "Invalid password, it must have at least one lowercase letter, one uppercase letter, One digit (0-9), One special character from @$!%*?&, and At least 8 characters",
+      error: true
+    })
     return;
   }
   try {
