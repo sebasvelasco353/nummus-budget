@@ -1,7 +1,7 @@
 import { pgTable, decimal, uuid, text, timestamp, pgEnum } from "drizzle-orm/pg-core";
 
-const accountTypeEnum = pgEnum("account_type", ["savings", "checking", "credit"]);
-const currencyEnum = pgEnum("currency", ["USD", "EUR", "GBP", "COP"]);
+export const accountTypeEnum = pgEnum("account_type", ["savings", "checking", "credit"]);
+export const currencyEnum = pgEnum("currency", ["USD", "EUR", "GBP", "COP"]);
 
 export const usersTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),

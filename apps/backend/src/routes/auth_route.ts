@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { hashPassword } from 'src/utils/hash';
-import { isUser, validateEmail } from 'src/utils/validation';
+import { isUser, validateEmail, isError } from 'src/utils/validation';
 import { db } from 'src/db';
 import { usersTable } from 'src/db/schema';
 
@@ -16,15 +16,15 @@ router.post('/login', async (req, res) => {
 // POST /api/auth/signin
 router.post('/signin', async (req, res) => {
   if (!isUser(req.body)) {
-    res.status(400).json({
-      message: "request has no valid user",
-      error: true
-    });
+    res.status(400).json({ message: "request has no valid user", error: true });
+    return;
   }
-
+  const { name, lastName, password, email } = req.body;
+  if (!validateEmail(email)) {
+    res.status(400).json({ message: "Not a valid email", error: true });
+    return;
+  }
   try {
-    const { name, lastName, password, email } = req.body;
-    if (!validateEmail(email)) throw ("Not a valid email")
     const tempUser = {
       name,
       lastName,
@@ -37,10 +37,8 @@ router.post('/signin', async (req, res) => {
       data: response[0]
     });
   } catch (error) {
-    res.status(500).json({
-      message: error,
-      error: true
-    })
+    const message = error.cause?.detail || error.message || "Unknown server error";
+    res.status(500).json({ message, error: true });
   }
 });
 
